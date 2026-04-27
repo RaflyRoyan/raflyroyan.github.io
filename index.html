@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Royan Hisyam — Backend Developer</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #f4f6f9;
+      --surface: #ffffff;
+      --surface-alt: #edf0f5;
+      --border: #dde2ec;
+      --text-primary: #141820;
+      --text-secondary: #5a6070;
+      --text-muted: #96a0b0;
+      --accent: #2155b8;
+      --accent-light: #dde8fb;
+      --accent-warm: #c8773a;
+      --accent-warm-light: #fdf0e4;
+      --tag-bg: #e8ecf4;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text-primary);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    /* LAYOUT */
+    .wrap {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    /* NAV */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(244,246,249,0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 56px;
+    }
+    .nav-brand {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: var(--accent);
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 13px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* HERO */
+    .hero {
+      padding: 80px 0 72px;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .hero-label::after {
+      content: '';
+      display: block;
+      width: 32px;
+      height: 1px;
+      background: var(--accent);
+      opacity: 0.5;
+    }
+    .hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(42px, 7vw, 64px);
+      line-height: 1.1;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+    .hero-sub {
+      font-size: 15px;
+      color: var(--text-secondary);
+      margin-top: 20px;
+      max-width: 520px;
+      line-height: 1.8;
+    }
+    .hero-contacts {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-top: 36px;
+    }
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text-secondary);
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .contact-item svg { opacity: 0.5; flex-shrink: 0; }
+    .contact-item a { color: inherit; text-decoration: none; }
+    .contact-item a:hover { color: var(--accent); }
+
+    /* SECTIONS */
+    section {
+      padding: 64px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    section:last-child { border-bottom: none; }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 40px;
+    }
+    .section-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--accent);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      background: var(--accent-light);
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+    .section-header h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 28px;
+      color: var(--text-primary);
+    }
+
+    /* ABOUT */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .about-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+    }
+    .about-card.wide {
+      grid-column: span 2;
+    }
+    .about-card p {
+      color: var(--text-secondary);
+      font-size: 14.5px;
+      line-height: 1.8;
+    }
+    .about-card .card-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 10px;
+    }
+
+    /* WHAT I DO */
+    .services-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .service-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px;
+      height: 100%;
+      background: var(--accent);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .service-card:hover { border-color: var(--accent); box-shadow: 0 4px 20px rgba(33,85,184,0.08); }
+    .service-card:hover::before { opacity: 1; }
+    .service-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+    .service-card h3 {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 10px;
+    }
+    .service-card p {
+      font-size: 13.5px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* EXPERIENCE */
+    .exp-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 32px;
+      margin-bottom: 12px;
+    }
+    .exp-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 16px;
+      gap: 16px;
+    }
+    .exp-title {
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .exp-company {
+      font-size: 13.5px;
+      color: var(--accent);
+      font-weight: 500;
+      margin-top: 2px;
+    }
+    .exp-period {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--text-muted);
+      background: var(--tag-bg);
+      padding: 5px 12px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+    .exp-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 16px;
+    }
+    .exp-list li {
+      display: flex;
+      gap: 12px;
+      font-size: 13.5px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+    .exp-list li::before {
+      content: '→';
+      color: var(--accent);
+      font-size: 12px;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+    .highlights-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 24px;
+    }
+    .highlight-item {
+      background: var(--accent-light);
+      border-radius: 8px;
+      padding: 14px 16px;
+      font-size: 13px;
+      color: var(--accent);
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .highlight-item::before { content: '✦'; font-size: 10px; margin-top: 2px; }
+
+    /* PROJECTS */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px;
+      transition: border-color 0.2s;
+    }
+    .project-card:first-child {
+      grid-column: span 2;
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+    .project-card:first-child .proj-title,
+    .project-card:first-child .proj-item { color: rgba(255,255,255,0.9); }
+    .project-card:first-child .proj-desc { color: rgba(255,255,255,0.65); }
+    .project-card:first-child .proj-label { color: rgba(255,255,255,0.45); background: rgba(255,255,255,0.1); }
+    .project-card:hover { border-color: var(--accent); }
+    .project-card:first-child:hover { border-color: var(--accent); }
+    .proj-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      background: var(--tag-bg);
+      padding: 3px 8px;
+      border-radius: 4px;
+      display: inline-block;
+      margin-bottom: 14px;
+    }
+    .proj-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 10px;
+    }
+    .proj-desc {
+      font-size: 13.5px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 14px;
+    }
+    .proj-items {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .proj-item {
+      font-size: 13px;
+      color: var(--text-secondary);
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+    }
+    .proj-item::before { content: '—'; opacity: 0.4; flex-shrink: 0; }
+
+    /* TECH STACK PROGRESS BARS */
+    .stack-section-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .stack-panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px 28px;
+    }
+    .stack-panel-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      margin-bottom: 20px;
+    }
+    .skill-row {
+      margin-bottom: 16px;
+    }
+    .skill-row:last-child { margin-bottom: 0; }
+    .skill-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    .skill-name {
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+    .skill-pct {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--accent);
+    }
+    .skill-track {
+      height: 6px;
+      background: var(--tag-bg);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .skill-fill {
+      height: 100%;
+      border-radius: 99px;
+      background: linear-gradient(90deg, var(--accent) 0%, #5b8ef0 100%);
+      width: 0%;
+      transition: width 1.1s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .skill-fill.animate { width: var(--target-width); }
+
+    /* EDUCATION & CERT */
+    .edu-cert-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      align-items: start;
+    }
+    .edu-block, .cert-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px;
+    }
+    .edu-block h3, .cert-block h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+    .edu-block .edu-school {
+      font-size: 13px;
+      color: var(--accent);
+      font-weight: 500;
+    }
+    .edu-block .edu-period {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+    .cert-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .cert-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .cert-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .cert-name { font-size: 13.5px; font-weight: 500; color: var(--text-primary); }
+    .cert-year {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* PRINCIPLES */
+    .principles-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    .principle-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 22px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+    .principle-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: var(--accent-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    .principle-card h3 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+    .principle-card p {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* FOOTER */
+    footer {
+      padding: 48px 0;
+      text-align: center;
+    }
+    .footer-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: 22px;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+    .footer-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .hero > * {
+      animation: fadeUp 0.6s ease both;
+    }
+    .hero-label { animation-delay: 0s; }
+    .hero h1 { animation-delay: 0.1s; }
+    .hero-sub { animation-delay: 0.2s; }
+    .hero-contacts { animation-delay: 0.3s; }
+
+    @media (max-width: 640px) {
+      .wrap { padding: 0 20px; }
+      .nav-links { display: none; }
+      .about-grid, .services-grid, .projects-grid,
+      .stack-grid, .edu-cert-grid, .principles-grid,
+      .highlights-grid { grid-template-columns: 1fr; }
+      .project-card:first-child { grid-column: span 1; }
+      .about-card.wide { grid-column: span 1; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <span class="nav-brand">royan.dev</span>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#stack">Stack</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-label">Backend Developer</div>
+    <h1>Royan<br><em>Hisyam</em></h1>
+    <p class="hero-sub">Backend developer yang berfokus pada performa, integritas data, dan stabilitas sistem jangka panjang menggunakan .NET & Oracle Database.</p>
+    <div class="hero-contacts">
+      <div class="contact-item">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+        <a href="mailto:royanrafly@gmail.com">royanrafly@gmail.com</a>
+      </div>
+      <div class="contact-item">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+        +62 895-3496-90206
+      </div>
+      <div class="contact-item">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        Surabaya, Jawa Timur
+      </div>
+    </div>
+  </header>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-header">
+      <span class="section-tag">01</span>
+      <h2>About Me</h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-card wide">
+        <div class="card-label">Ringkasan</div>
+        <p>Saya adalah seorang Backend Developer yang berfokus pada pengembangan sistem berbasis data dengan kompleksitas tinggi, 
+            khususnya menggunakan teknologi .NET (C#) dan Oracle Database. Dalam pekerjaan sehari-hari, saya terbiasa menangani 
+            sistem yang membutuhkan performa tinggi sekaligus akurasi data yang sangat ketat — seperti sistem transaksi dan pelaporan berskala besar.</p>
+      </div>
+      <div class="about-card">
+        <div class="card-label">Pendekatan Kerja</div>
+        <p>Saya memiliki pendekatan yang sistematis dalam menyelesaikan masalah, terutama dalam analisis error, debugging mendalam, dan optimasi query database.</p>
+      </div>
+      <div class="about-card">
+        <div class="card-label">Lingkungan Production</div>
+        <p>Terbiasa bekerja langsung di lingkungan production, di mana setiap perubahan harus dilakukan dengan hati-hati dan terukur untuk menjaga stabilitas sistem.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT I DO -->
+  <section id="services">
+    <div class="section-header">
+      <span class="section-tag">02</span>
+      <h2>What I Do</h2>
+    </div>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-num">01 /</div>
+        <h3>Backend Development</h3>
+        <p>Mengembangkan dan memelihara aplikasi backend menggunakan C# dan .NET. Membangun background worker service untuk memproses data secara berkala dan otomatis.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-num">02 /</div>
+        <h3>Database & Data Processing</h3>
+        <p>Bekerja intensif dengan Oracle Database — menulis query kompleks (CTE, join, anti-join), validasi data, cleansing, hingga optimasi performa query.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-num">03 /</div>
+        <h3>Data Synchronization</h3>
+        <p>Membangun proses sinkronisasi data antar sistem yang berbeda — memastikan tidak ada data hilang, tidak ada duplikasi, dan konsistensi antar tabel tetap terjaga.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-num">04 /</div>
+        <h3>Troubleshooting & Debugging</h3>
+        <p>Menganalisis dan menyelesaikan error sistem: constraint database, type mismatch, kegagalan insert/update, hingga inkonsistensi data antar sistem.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-header">
+      <span class="section-tag">03</span>
+      <h2>Experience</h2>
+    </div>
+    <div class="exp-block">
+      <div class="exp-header">
+        <div>
+          <div class="exp-title">IT Programmer</div>
+          <div class="exp-company">Badan Pendapatan Daerah Kota Surabaya</div>
+        </div>
+        <span class="exp-period">Juni 2025 - Sekarang</span>
+      </div>
+      <p style="font-size:13.5px;color:var(--text-secondary);line-height:1.7;">Bertanggung jawab dalam pengembangan dan pemeliharaan sistem backend berbasis .NET serta pengelolaan database Oracle. Terlibat dalam sistem pengolahan data transaksi dan sinkronisasi antar sistem berskala besar.</p>
+      <ul class="exp-list">
+        <li>Mengembangkan backend service menggunakan C# (.NET)</li>
+        <li>Mengelola dan mengoptimasi query pada Oracle Database</li>
+        <li>Membangun sistem sinkronisasi data antar platform</li>
+        <li>Melakukan troubleshooting pada sistem production</li>
+        <li>Menjaga konsistensi dan validitas data</li>
+      </ul>
+    </div>
+    <div class="exp-block">
+      <div class="exp-header">
+        <div>
+          <div class="exp-title">IT Support (Parktek Kerja Lapangan)</div>
+          <div class="exp-company">SMA Hangtuah 4 Kota Surabaya</div>
+        </div>
+        <span class="exp-period">Janurai 2023 - September 2023</span>
+      </div>
+      <p style="font-size:13.5px;color:var(--text-secondary);line-height:1.7;">Mengelola dan memastikan operasional infrastruktur TI sekolah tetap optimal, termasuk instalasi, konfigurasi, pemeliharaan perangkat, konektivitas jaringan, serta penyusunan laporan rutin terkait kondisi dan penggunaan sistem.</p>
+      <ul class="exp-list">
+        <li>Melakukan instalasi, konfigurasi, dan pemeliharaan perangkat keras dan perangkat lunak yang digunakan</li>
+        <li>Pastikan semua perangkat tersambung ke jaringan sekolah dan berfungsi optimal</li>
+        <li>Membuat laporan rutin mengenai status infrastruktur TI sekolah, meliputi penggunaan jaringan, kondisi perangkat keras dan perangkat lunak, serta masalah teknis yang dihadapi</li>
+      </ul>
+    </div>
+
+    <div style="margin-top: 24px;">
+      <div class="section-header" style="margin-bottom: 16px;">
+        <span class="section-tag" style="font-size:10px;">Highlights</span>
+      </div>
+      <div class="highlights-grid">
+        <div class="highlight-item">Menangani error database kompleks: precision overflow & constraint violation</div>
+        <div class="highlight-item">Query untuk deteksi data tidak sinkron antar tabel</div>
+        <div class="highlight-item">Mengelola relasi parent-child dalam sistem transaksi</div>
+        <div class="highlight-item">Meningkatkan kualitas data via validasi & filtering</div>
+        <div class="highlight-item">Menelusuri akar masalah hingga level DB dan kode aplikasi</div>
+        <div class="highlight-item">Bekerja dengan sistem dependensi antar modul tinggi</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-header">
+      <span class="section-tag">04</span>
+      <h2>Projects</h2>
+    </div>
+    <div class="projects-grid">
+      <div class="project-card">
+        <div class="proj-label">Featured Project</div>
+        <div class="proj-title">Data Synchronization System</div>
+        <p class="proj-desc">Sistem untuk menyinkronkan data dari berbagai sumber ke satu sistem utama, mencakup validasi ketat dan monitoring data yang gagal sinkron.</p>
+        <ul class="proj-items">
+          <li class="proj-item">Sinkronisasi data transaksi multi-sumber</li>
+          <li class="proj-item">Validasi data sebelum masuk ke database</li>
+          <li class="proj-item">Monitoring data yang gagal sinkron secara real-time</li>
+        </ul>
+      </div>
+      <div class="project-card">
+        <div class="proj-label">Analytics</div>
+        <div class="proj-title">Data Validation & Monitoring</div>
+        <p class="proj-desc">Mekanisme untuk mendeteksi dan menganalisis anomali data antar tabel dan sistem.</p>
+        <ul class="proj-items">
+          <li class="proj-item">Deteksi missing data / data tanpa pasangan</li>
+          <li class="proj-item">Perbandingan data antar tabel</li>
+          <li class="proj-item">Identifikasi anomali data otomatis</li>
+        </ul>
+      </div>
+      <div class="project-card">
+        <div class="proj-label">Automation</div>
+        <div class="proj-title">Backend Worker Services</div>
+        <p class="proj-desc">Service otomatis untuk menarik, memproses, dan menyimpan data dari sumber eksternal secara batch.</p>
+        <ul class="proj-items">
+          <li class="proj-item">Pull data dari sumber eksternal terjadwal</li>
+          <li class="proj-item">Pemrosesan data secara batch</li>
+          <li class="proj-item">Penyimpanan aman ke database production</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- TECH STACK -->
+  <section id="stack">
+    <div class="section-header">
+      <span class="section-tag">05</span>
+      <h2>Tech Stack</h2>
+    </div>
+    <div class="stack-section-grid">
+      <div class="stack-panel">
+        <div class="stack-panel-label">Backend</div>
+        <div class="skill-row">
+          <div class="skill-meta"><span class="skill-name">C#</span><span class="skill-pct">92%</span></div>
+          <div class="skill-track"><div class="skill-fill" style="--target-width:92%"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-meta"><span class="skill-name">.NET Framework</span><span class="skill-pct">90%</span></div>
+          <div class="skill-track"><div class="skill-fill" style="--target-width:90%"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-meta"><span class="skill-name">Entity Framework Core</span><span class="skill-pct">80%</span></div>
+          <div class="skill-track"><div class="skill-fill" style="--target-width:80%"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-meta"><span class="skill-name">Background Services</span><span class="skill-pct">88%</span></div>
+          <div class="skill-track"><div class="skill-fill" style="--target-width:88%"></div></div>
+        </div>
+      </div>
+      <div class="stack-panel">
+        <div class="stack-panel-label">Database</div>
+        <div class="skill-row">
+          <div class="skill-meta"><span class="skill-name">Oracle Database</span><span class="skill-pct">90%</span></div>
+          <div class="skill-track"><div class="skill-fill" style="--target-width:90%"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-meta"><span class="skill-name">SQL Advanced & CTE</span><span class="skill-pct">88%</span></div>
+          <div class="skill-track"><div class="skill-fill" style="--target-width:88%"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-meta"><span class="skill-name">Query Optimization</span><span class="skill-pct">85%</span></div>
+          <div class="skill-track"><div class="skill-fill" style="--target-width:85%"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-meta"><span class="skill-name">Data Integration</span><span class="skill-pct">82%</span></div>
+          <div class="skill-track"><div class="skill-fill" style="--target-width:82%"></div></div>
+        </div>
+      </div>
+      <div class="stack-panel" style="grid-column: span 2;">
+        <div class="stack-panel-label">Tools & Architecture</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 40px;">
+          <div class="skill-row">
+            <div class="skill-meta"><span class="skill-name">Git</span><span class="skill-pct">80%</span></div>
+            <div class="skill-track"><div class="skill-fill" style="--target-width:80%"></div></div>
+          </div>
+          <div class="skill-row">
+            <div class="skill-meta"><span class="skill-name">Data Synchronization</span><span class="skill-pct">90%</span></div>
+            <div class="skill-track"><div class="skill-fill" style="--target-width:90%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Animate progress bars on scroll
+    const fills = document.querySelectorAll('.skill-fill');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('animate'), 100);
+        }
+      });
+    }, { threshold: 0.3 });
+    fills.forEach(f => observer.observe(f));
+  </script>
+
+  <!-- EDUCATION & CERT -->
+  <section id="education">
+    <div class="section-header">
+      <span class="section-tag">06</span>
+      <h2>Education & Certifications</h2>
+    </div>
+    <div class="edu-cert-grid">
+      <div class="edu-block">
+        <div class="card-label" style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:14px;">Pendidikan</div>
+        <h3>S1 Informatika</h3>
+        <div class="edu-school">Universitas Pembangunan Nasional "Veteran" Jawa Timur</div>
+        <div class="edu-period">2020 — 2024</div>
+      </div>
+      <div class="cert-block">
+        <div class="card-label" style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:14px;">Sertifikasi</div>
+        <ul class="cert-list">
+          <li class="cert-item">
+            <span class="cert-name">Junior Technical Support dari Badan Nasional Sertifikasi Profesi (BNSP)</span>
+            <span class="cert-year">2025</span>
+          </li>
+          <li class="cert-item">
+            <span class="cert-name">Junior Web Programmer dari Badan Nasional Sertifikasi Profesi (BNSP)</span>
+            <span class="cert-year">2024</span>
+          </li>
+          <li class="cert-item">
+            <span class="cert-name">Associate UI/UX dari Certnexus Asia</span>
+            <span class="cert-year">2023</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRINCIPLES -->
+  <section id="principles">
+    <div class="section-header">
+      <span class="section-tag">07</span>
+      <h2>Working Principles</h2>
+    </div>
+    <div class="principles-grid">
+      <div class="principle-card">
+        <div class="principle-icon">🛡</div>
+        <div>
+          <h3>Data Integrity First</h3>
+          <p>Memastikan data selalu valid dan konsisten di setiap lapisan sistem.</p>
+        </div>
+      </div>
+      <div class="principle-card">
+        <div class="principle-icon">🔍</div>
+        <div>
+          <h3>Problem Solving Mindset</h3>
+          <p>Fokus pada akar masalah yang sesungguhnya, bukan sekadar mengatasi gejala permukaan.</p>
+        </div>
+      </div>
+      <div class="principle-card">
+        <div class="principle-icon">⚡</div>
+        <div>
+          <h3>Efficiency & Performance</h3>
+          <p>Menulis query dan kode yang optimal untuk performa maksimal tanpa membuang sumber daya.</p>
+        </div>
+      </div>
+      <div class="principle-card">
+        <div class="principle-icon">🏗</div>
+        <div>
+          <h3>Stability Over Complexity</h3>
+          <p>Mengutamakan sistem yang stabil dan mudah dipelihara dalam jangka panjang.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-name">Royan Hisyam Rafliansyah</div>
+    <div class="footer-sub">Backend Developer · Surabaya, Jawa Timur · © 2026</div>
+  </footer>
+
+</div>
+
+</body>
+</html>
